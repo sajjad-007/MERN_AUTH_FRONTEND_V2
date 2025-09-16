@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CloudUpload } from 'lucide-react';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Auth = () => {
   const [uploadImg, setUploadImg] = useState('');
@@ -58,7 +59,15 @@ const Auth = () => {
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-username">Password</Label>
+                <Label htmlFor="tabs-demo-username">
+                  <p>Password</p>
+                  <Link
+                    to="/forgot/password"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </Label>
                 <Input
                   id="password"
                   name="password"
@@ -168,7 +177,7 @@ const Auth = () => {
             </CardContent>
             <CardFooter>
               <Button type="submit" className="cursor-pointer">
-                Login
+                Sign Up
               </Button>
             </CardFooter>
           </Card>
