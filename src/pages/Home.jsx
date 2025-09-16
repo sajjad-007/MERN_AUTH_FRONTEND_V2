@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 const Home = () => {
   return (
-    <div className="flex items-center justify-center  h-screen">
+    <div className="flex items-center justify-center h-screen">
       <Card className="w-full max-w-sm ">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
