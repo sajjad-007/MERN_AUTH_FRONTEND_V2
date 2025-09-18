@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Otp from './pages/Otp';
 import InvalidRoutes from './InvalidRoutes';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
             <Route path="/otp-verify/:email/:phoneNumber" element={<Otp />} />
             <Route path="*" element={<InvalidRoutes />} />
           </Routes>
+          <ToastContainer theme="dark" />
         </Router>
       </ThemeProvider>
     </>

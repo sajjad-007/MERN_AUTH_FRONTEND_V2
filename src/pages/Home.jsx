@@ -14,7 +14,8 @@ import { Label } from '@/components/ui/label';
 const Home = () => {
   return (
     <div className="flex items-center justify-center h-screen">
-      <Card className="w-full max-w-sm ">
+      <h1 className="text-6xl text-chart-3 font-bold">Welcome Sajjad!</h1>
+      {/* <Card className="w-full max-w-sm ">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
@@ -59,7 +60,7 @@ const Home = () => {
             Login with Google
           </Button>
         </CardFooter>
-      </Card>
+      </Card> */}
     </div>
   );
 };

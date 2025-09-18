@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -9,22 +9,27 @@ import {
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Label } from '@/components/ui/label';
-import { CloudUpload } from 'lucide-react';
+import { CloudUpload, Loader2Icon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Context } from '../../main';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
+  const { isLoading, setIsLoading, user, setUser } = useContext(Context);
+  const navigateTo = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-
   const [uploadImg, setUploadImg] = useState('');
   const [imgPreview, setImgPreview] = useState('');
+
+  //for uploaded image preview
 
   const handleUploadImage = e => {
     const file = e.target.files[0];
@@ -50,6 +55,7 @@ const Register = () => {
     formData.append('accountVerificationMethod', data.verificationMethod);
 
     try {
+      setIsLoading(true);
       const response = await axios.post(
         'http://localhost:4000/api/v1/user/register',
         formData,
@@ -60,15 +66,26 @@ const Register = () => {
           },
         }
       );
-      console.log(response);
-      console.log(response?.data?.message);
+      if (response.statusText === 'OK') {
+        toast.success(response?.data?.message);
+        setUser(response.data);
+        console.log(response);
+        setTimeout(() => {
+          navigateTo(
+            `/otp-verify/${response?.data?.email}/${response?.data?.phoneNumber}`
+          );
+        }, 2000);
+      }
     } catch (error) {
+      toast.error(error?.response?.data?.message);
       console.error('error from user registration', error);
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  console.log(user);
   return (
-    <form onSubmit={handleSubmit(handleUserRegister)}>
+    <form onSubmit={handleSubmit(data => handleUserRegister(data))}>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-center">
@@ -85,11 +102,6 @@ const Register = () => {
                     <AvatarFallback className="cursor-pointer h-full w-full">
                       <CloudUpload />
                     </AvatarFallback>
-                    {errors.image && (
-                      <p className="text-destructive text-sm">
-                        {errors.image.message}
-                      </p>
-                    )}
                   </>
                 )}
               </Avatar>
@@ -103,7 +115,12 @@ const Register = () => {
               onChange={handleUploadImage}
             />
           </div>
-          <CardDescription>Select image</CardDescription>
+
+          {errors.image ? (
+            <p className="text-destructive text-sm">{errors.image.message}</p>
+          ) : (
+            <CardDescription>Select image</CardDescription>
+          )}
         </CardHeader>
 
         <CardContent className="grid gap-6">
@@ -235,9 +252,16 @@ const Register = () => {
         </CardContent>
 
         <CardFooter>
-          <Button type="submit" className="cursor-pointer">
-            Sign Up
-          </Button>
+          {isLoading ? (
+            <Button size="sm" disabled>
+              <Loader2Icon className="animate-spin" />
+              Please wait..
+            </Button>
+          ) : (
+            <Button type="submit" className="cursor-pointer">
+              Sign Up
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </form>

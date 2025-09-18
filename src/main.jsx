@@ -13,9 +13,9 @@ export const Context = createContext({
 });
 
 const AppWarpper = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState();
-  const [user, setUser] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Context.Provider
@@ -33,7 +33,11 @@ const AppWarpper = () => {
   );
 };
 
-createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root');
+const root = container._reactRoot ?? createRoot(container);
+container._reactRoot = root;
+
+root.render(
   <StrictMode>
     <AppWarpper />
   </StrictMode>
