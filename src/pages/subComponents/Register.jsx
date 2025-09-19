@@ -17,8 +17,9 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../../axiosinstance';
 const Register = () => {
-  const { isLoading, setIsLoading, user, setUser } = useContext(Context);
+  const { isLoading, setIsLoading, isAuthenticated } = useContext(Context);
   const navigateTo = useNavigate();
   const {
     register,
@@ -29,8 +30,7 @@ const Register = () => {
   const [uploadImg, setUploadImg] = useState('');
   const [imgPreview, setImgPreview] = useState('');
 
-  //for uploaded image preview
-
+  //handle image preview
   const handleUploadImage = e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -42,7 +42,7 @@ const Register = () => {
       setUploadImg(file);
     };
   };
-
+  //Handle user registration
   const handleUserRegister = async data => {
     data.phoneNumber = `+880${data.phoneNumber}`;
 
@@ -56,19 +56,14 @@ const Register = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        'http://localhost:4000/api/v1/user/register',
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      const response = await axiosInstance.post('/register', formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       if (response.statusText === 'OK') {
         toast.success(response?.data?.message);
-        setUser(response.data);
         console.log(response);
         setTimeout(() => {
           navigateTo(
@@ -77,13 +72,20 @@ const Register = () => {
         }, 2000);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
       console.error('error from user registration', error);
+      toast.error(error?.response?.data?.message);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
   };
-  console.log(user);
+  //if a user is already authenticated then don't show this page
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigateTo('/');
+    }
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(data => handleUserRegister(data))}>
       <Card>
@@ -95,7 +97,7 @@ const Register = () => {
                   <AvatarImage
                     src={imgPreview}
                     alt="Preview"
-                    className="h-full w-full bg-cover cursor-pointer"
+                    className="h-full w-full object-cover cursor-pointer"
                   />
                 ) : (
                   <>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,9 +11,28 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Context } from '../main';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 const Home = () => {
+  // const { width, height } = useWindowSize();
+  const { isAuthenticated } = useContext(Context);
+
+  const navigateTo = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigateTo('/auth');
+    }
+  }, []);
   return (
     <div className="flex items-center justify-center h-screen">
+      <Avatar>
+        <AvatarImage></AvatarImage>
+      </Avatar>
+      {/* <Confetti width={width} height={height} /> */}
       <h1 className="text-6xl text-chart-3 font-bold">Welcome Sajjad!</h1>
       {/* <Card className="w-full max-w-sm ">
         <CardHeader>
