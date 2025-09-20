@@ -16,17 +16,13 @@ import { Loader2Icon } from 'lucide-react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { axiosInstance } from '../../axiosinstance';
+
 const Login = () => {
-  const {
-    user,
-    setUser,
-    isLoading,
-    setIsLoading,
-    setIsAuthenticated,
-    isAuthenticated,
-  } = useContext(Context);
+  const { isLoading, setIsLoading, setIsAuthenticated, isAuthenticated } =
+    useContext(Context);
 
   const navigateTo = useNavigate();
+  //My userState
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   //if a user is already authenticated then don't show this page
@@ -39,7 +35,6 @@ const Login = () => {
     formData.append('email', email);
     formData.append('password', password);
     try {
-      setUser(null);
       setIsAuthenticated(false);
       setIsLoading(true);
       const response = await axiosInstance.post('/login', formData, {
@@ -52,7 +47,6 @@ const Login = () => {
         setIsAuthenticated(true);
         toast.success(response?.data?.message);
         setTimeout(() => {
-          setUser(response?.data?.user);
           setIsAuthenticated(true);
           navigateTo('/');
         }, 2000);
@@ -62,16 +56,11 @@ const Login = () => {
       toast.error(error?.response?.data?.message);
       setIsLoading(false);
       setIsAuthenticated(false);
-      setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigateTo('/');
-    }
-  }, []);
+  
   return (
     <div>
       <Card>

@@ -79,12 +79,7 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-  //if a user is already authenticated then don't show this page
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigateTo('/');
-    }
-  }, []);
+  
 
   return (
     <form onSubmit={handleSubmit(data => handleUserRegister(data))}>
@@ -121,7 +116,7 @@ const Register = () => {
           {errors.image ? (
             <p className="text-destructive text-sm">{errors.image.message}</p>
           ) : (
-            <CardDescription>Select image</CardDescription>
+            <CardDescription>Upload image</CardDescription>
           )}
         </CardHeader>
 
