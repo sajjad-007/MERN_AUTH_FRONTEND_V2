@@ -17,7 +17,7 @@ import { axiosInstance } from '../axiosinstance';
 const Otp = () => {
   const [value, setValue] = useState('');
   const { email, phoneNumber } = useParams();
-  const { user, setUser, isLoading, setIsLoading, isAuthenticated } =
+  const { setUser, isLoading, setIsLoading, isAuthenticated } =
     useContext(Context);
   const navigateTo = useNavigate();
 

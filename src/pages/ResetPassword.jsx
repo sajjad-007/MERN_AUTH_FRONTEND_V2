@@ -18,10 +18,11 @@ import { toast } from 'react-toastify';
 // import { Link } from 'react-router-dom';
 
 const ResetPassword = () => {
-  const { isLoading, setIsLoading } = useContext(Context);
+  const { isLoading, setIsLoading, isAuthenticated } = useContext(Context);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const { token } = useParams();
+
   const navigateTo = useNavigate();
   const handleResetPass = async () => {
     const formData = new FormData();
@@ -57,6 +58,11 @@ const ResetPassword = () => {
     console.log(confirmPassword);
   };
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigateTo('/');
+    }
+  }, [isAuthenticated]);
   return (
     <div className="h-screen flex items-center justify-center">
       <Card className="sm-w-[300px] w-[500px]">

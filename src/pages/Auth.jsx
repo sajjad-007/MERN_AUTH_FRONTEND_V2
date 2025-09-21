@@ -12,7 +12,6 @@ const Auth = () => {
     if (storedAuthValue === 'true') {
       setIsAuthenticated(true);
     }
-    console.log(isAuthenticated);
   }, []);
   const navigateTo = useNavigate();
   //if a user is already authenticated then don't show this page
