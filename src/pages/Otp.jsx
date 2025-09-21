@@ -28,7 +28,6 @@ const Otp = () => {
     formData.append('phoneNumber', phoneNumber);
     formData.append('otp', value);
     try {
-      setIsAuthenticated(false);
       setIsLoading(true);
       const response = await axiosInstance.post('/otp-verify', formData, {
         withCredentials: true,

@@ -79,7 +79,6 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <form onSubmit={handleSubmit(data => handleUserRegister(data))}>
@@ -199,8 +198,8 @@ const Register = () => {
               {...register('password', {
                 required: 'Password is required',
                 minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters',
+                  value: 5,
+                  message: 'Password must be at least 5 characters',
                 },
               })}
             />

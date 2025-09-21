@@ -60,7 +60,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  
+
   return (
     <div>
       <Card>
@@ -115,7 +115,7 @@ const Login = () => {
                 className="cursor-pointer"
                 onClick={hanldeLoginUser}
               >
-                Sign Up
+                Login
               </Button>
             )}
           </CardFooter>

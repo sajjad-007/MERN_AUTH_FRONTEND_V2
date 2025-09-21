@@ -17,9 +17,8 @@ import { toast } from 'react-toastify';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
-import { Loader2Icon, LogOut, LogOutIcon } from 'lucide-react';
+import { Loader2Icon, LogOut } from 'lucide-react';
 import { axiosInstance } from '../axiosinstance';
-import { Skeleton } from '@/components/ui/skeleton';
 const Home = () => {
   const {
     setIsAuthenticated,
@@ -34,9 +33,7 @@ const Home = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const { width, height } = useWindowSize();
   useEffect(() => {
-    console.log(user);
     const timer = setTimeout(() => setShowConfetti(false), 9000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -78,6 +75,7 @@ const Home = () => {
         }
       );
       if (response.statusText === 'OK') {
+        setShowConfetti(false);
         toast.success(response?.data?.message);
         setIsLoading(false);
         setTimeout(() => {
@@ -99,7 +97,8 @@ const Home = () => {
 
   return (
     <div>
-      {/* {showConfetti && <Confetti width={width} height={height} />} */}
+      {/* if user exist then fire showConfetti otherwise not fire */}
+      {user && showConfetti && <Confetti width={width} height={height} />}
       {isLoading ? (
         <Button
           size="sm"
@@ -118,21 +117,24 @@ const Home = () => {
         </Button>
       )}
 
-      <div className="w-full h-full flex flex-col gap-4 items-center justify-center my-20">
-        <Avatar className="h-22 w-22 object-cover">
+      <div className="w-full h-full flex flex-col gap-4 items-center justify-center mt-16">
+        <Avatar className="h-32 w-32 object-cover">
           <AvatarImage
             src={user ? user?.profile?.secure_url : 'not found'}
             className="h-full w-full object-cover text-white"
             alt="not found"
           />
         </Avatar>
-        <h1 className="text-5xl text-chart-3 font-bold">
-          Welcome {user?.fullName}
-        </h1>
-        {/* {user ? (
+
+        {user ? (
+          <h1 className="text-5xl text-chart-2 font-bold capitalize">
+            {user ? `Welcome, ${user?.fullName}` : 'Please Reload Your Browser'}
+          </h1>
         ) : (
-          'User not found'
-        )} */}
+          <h1 className="text-5xl text-chart-3 font-bold">
+            Please Reload Your Browser
+          </h1>
+        )}
       </div>
 
       {/* <Card className="w-full max-w-sm ">
