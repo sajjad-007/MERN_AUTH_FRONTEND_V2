@@ -35,7 +35,7 @@ const Otp = () => {
           'Content-Type': 'application/json',
         },
       });
-      if (response.statusText === 'OK') {
+      if (response) {
         toast.success(response?.data?.message);
         // loading false
         setIsLoading(false);
@@ -76,18 +76,18 @@ const Otp = () => {
           </InputOTPGroup>
         </InputOTP>
         {value === '' && !isLoading ? (
-          <span className="text-lg font-bold text-destructive">
+          <span className="text-xl font-bold text-destructive">
             Please enter your otp
           </span>
         ) : isLoading ? (
-          <Button size="sm" disabled>
+          <Button className="w-full text-[15px]" disabled>
             <Loader2Icon className="animate-spin" />
             Please wait..
           </Button>
         ) : (
           <Button
             type="submit"
-            className="w-[100px] cursor-pointer"
+            className="cursor-pointer w-full text-[15px]"
             onClick={handleOtp}
           >
             Verify OTP

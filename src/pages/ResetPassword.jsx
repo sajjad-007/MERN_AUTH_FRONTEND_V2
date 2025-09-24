@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -40,7 +40,7 @@ const ResetPassword = () => {
           },
         }
       );
-      if (response.statusText === 'OK') {
+      if (response) {
         toast.success(response?.data?.message);
         setTimeout(() => {
           navigateTo('/auth');
@@ -96,14 +96,14 @@ const ResetPassword = () => {
         </CardContent>
         <CardFooter>
           {isLoading ? (
-            <Button size="sm" disabled>
+            <Button className="w-full text-[15px] " disabled>
               <Loader2Icon className="animate-spin" />
               Please wait..
             </Button>
           ) : (
             <Button
               type="submit"
-              className="cursor-pointer"
+              className="cursor-pointer w-full text-[15px] "
               onClick={handleResetPass}
             >
               Reset Password

@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Context } from '../main';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2Icon } from 'lucide-react';
 import { toast } from 'react-toastify';
@@ -32,7 +32,7 @@ const ForgotPassword = () => {
           },
         }
       );
-      if (response.statusText === 'OK') {
+      if (response) {
         toast.success(response?.data?.message);
         console.log(response);
       }
@@ -54,8 +54,10 @@ const ForgotPassword = () => {
     <div className="h-screen  flex items-center justify-center ">
       <Card className="sm-w-[300px] w-[500px]">
         <CardHeader>
-          <CardTitle>Reset Email</CardTitle>
-          <CardDescription>Enter your email to get reset email</CardDescription>
+          <CardTitle>Forgot Password</CardTitle>
+          <CardDescription>
+            Enter your email address to receive a password reset token.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3">
@@ -81,15 +83,15 @@ const ForgotPassword = () => {
         </CardContent>
         <CardFooter>
           {isLoading ? (
-            <Button size="sm" disabled>
+            <Button className="w-full text-[15px]" disabled>
               <Loader2Icon className="animate-spin" />
               Please wait..
             </Button>
           ) : (
             <Button
               type="submit"
-              className="cursor-pointer"
               onClick={handleForgotPass}
+              className="w-full text-[15px] cursor-pointer"
             >
               Sign Up
             </Button>

@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axiosinstance';
 const Register = () => {
   const { isLoading, setIsLoading, isAuthenticated } = useContext(Context);
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -62,15 +62,12 @@ const Register = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      if (response.statusText === 'OK') {
-        toast.success(response?.data?.message);
-        console.log(response);
-        setTimeout(() => {
-          navigateTo(
-            `/otp-verify/${response?.data?.email}/${response?.data?.phoneNumber}`
-          );
-        }, 2000);
-      }
+
+      toast.success(response?.data?.message || 'Toast is firing!');
+
+      navigate(
+        `/otp-verify/${response?.data?.email}/${response?.data?.phoneNumber}`
+      );
     } catch (error) {
       console.error('error from user registration', error);
       toast.error(error?.response?.data?.message);
@@ -249,12 +246,12 @@ const Register = () => {
 
         <CardFooter>
           {isLoading ? (
-            <Button size="sm" disabled>
+            <Button className="w-full text-[15px] " disabled>
               <Loader2Icon className="animate-spin" />
               Please wait..
             </Button>
           ) : (
-            <Button type="submit" className="cursor-pointer">
+            <Button type="submit" className="w-full text-[15px] cursor-pointer">
               Sign Up
             </Button>
           )}

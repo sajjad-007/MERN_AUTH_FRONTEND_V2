@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:4000/api/v1/user',
+  baseURL: 'https://auth-v2-forrendering.onrender.com/api/v1/user',
 });
 
 export { axiosInstance };

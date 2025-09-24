@@ -11,7 +11,8 @@ import { axiosInstance } from '../axiosinstance';
 
 // import AboutAdmin from './subComponents/AboutAdmin';
 import AboutAdminCard from './subComponents/AboutAdmin';
-import AllUserSlider from './subComponents/AllUserSlider';
+import Technologies from './subComponents/Technologies';
+import Footer from './subComponents/Footer';
 const Home = () => {
   const {
     setIsAuthenticated,
@@ -67,17 +68,15 @@ const Home = () => {
           },
         }
       );
-      if (response.statusText === 'OK') {
+      if (response) {
         setShowConfetti(false);
         toast.success(response?.data?.message);
         setIsLoading(false);
-        setTimeout(() => {
-          setUser(null);
-          setIsAuthenticated(false);
-          navigateTo('/auth');
-          localStorage.removeItem('user');
-          localStorage.removeItem('isAuthenticated');
-        }, 2000);
+        setUser(null);
+        setIsAuthenticated(false);
+        localStorage.removeItem('user');
+        localStorage.removeItem('isAuthenticated');
+        navigateTo('/auth');
       }
     } catch (error) {
       console.error('Error from logout', error);
@@ -111,7 +110,7 @@ const Home = () => {
       )}
 
       <div className="w-full h-full flex flex-col gap-4 items-center justify-center mt-16">
-        <Avatar className="h-32 w-32 object-cover">
+        <Avatar className="h-56 w-56 object-cover">
           <AvatarImage
             src={user ? user?.profile?.secure_url : 'not found'}
             className="h-full w-full object-cover text-white"
@@ -126,8 +125,58 @@ const Home = () => {
                 ? `Welcome, ${user?.fullName}`
                 : 'Please Reload Your Browser'}
             </h1>
+            <div className="mt-5 flex flex-col items-start">
+              <h1 className="text-3xl  ">
+                Welcome to my complete MERN user authentication application.
+              </h1>
+
+              <p className="text-lg text-chart-2 mt-4 mb-2">
+                This project includes:
+              </p>
+              <ul className="flex flex-col items-start gap-2">
+                <ol>
+                  <span className="text-chart-4">JWT</span> for secure user
+                  authentication
+                </ol>
+                <ol>
+                  <span className="text-chart-4">Nodemailer</span> for email
+                  verification
+                </ol>
+                <ol>
+                  <span className="text-chart-4">Twilio </span>
+                  for phone verification (limited to one verified number on the
+                  free plan)
+                </ol>
+                <ol>
+                  <span className="text-chart-4">Cloudinary </span>for image
+                  uploads
+                </ol>
+                <ol>
+                  <span className="text-chart-4 mr-2">
+                    Node.js, Express.js, and MongoDB
+                  </span>
+                  for the backend
+                </ol>
+                <ol>
+                  <span className="text-chart-4 mr-2">
+                    React with shadcn and useContext
+                  </span>
+                  for the frontend and user state management
+                </ol>
+              </ul>
+            </div>
+            <hr className="mt-10"></hr>
             <section className="py-10 ">
+              <h1 className="text-3xl font-bold text-center mb-8">
+                About Author
+              </h1>
               <AboutAdminCard />
+            </section>
+            <section>
+              <Technologies />
+            </section>
+            <section>
+              <Footer />
             </section>
           </div>
         ) : (
